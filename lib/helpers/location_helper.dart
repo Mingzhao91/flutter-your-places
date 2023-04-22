@@ -1,7 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const GOOGLE_API_KEY = 'AIzaSyAZRKZYJwH1v-e8LJkvXaGGOUyhWF08Iy8';
+// add your google api key in here: flutter-your-places/ios/Runner/AppDelegate.swift and below
+const GOOGLE_API_KEY = 'GOOGLE_API_KEY';
 
 class LocationHelper {
   static String generateLocationPreviewImage(
