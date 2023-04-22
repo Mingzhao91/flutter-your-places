@@ -21,24 +21,35 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        child: const Center(
-          child: Text('Got no places yet, start adding some!'),
-        ),
-        builder: (ctx, greatePlaces, ch) => greatePlaces.items.length <= 0
-            ? ch
-            : ListView.builder(
-                itemCount: greatePlaces.items.length,
-                itemBuilder: (ctx, i) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: FileImage(greatePlaces.items[i].image),
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false)
+            .fetchAndSetPlaces(),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Consumer<GreatPlaces>(
+                    child: const Center(
+                      child: Text('Got no places yet, start adding some!'),
+                    ),
+                    builder: (ctx, greatePlaces, ch) =>
+                        greatePlaces.items.length <= 0
+                            ? ch
+                            : ListView.builder(
+                                itemCount: greatePlaces.items.length,
+                                itemBuilder: (ctx, i) => ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage:
+                                        FileImage(greatePlaces.items[i].image),
+                                  ),
+                                  title: Text(greatePlaces.items[i].title),
+                                  onTap: () {
+                                    // go to detail page...
+                                  },
+                                ),
+                              ),
                   ),
-                  title: Text(greatePlaces.items[i].title),
-                  onTap: () {
-                    // go to detail page...
-                  },
-                ),
-              ),
       ),
     );
   }
